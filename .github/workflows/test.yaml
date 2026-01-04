@@ -50,10 +50,15 @@ jobs:
           fnm use 24
 
           npm ci
-      - name: Run Tests
+      - name: Run Tests (capture output)
         working-directory: app
         shell: bash
         run: |
           eval "$(fnm env)"
           fnm use 24
-          npm run check
+
+          mkdir -p reports
+          npm run check | tee reports/test-results.txt
+      - name: Print test file
+        working-directory: app
+        run: cat reports/test-results.tsx

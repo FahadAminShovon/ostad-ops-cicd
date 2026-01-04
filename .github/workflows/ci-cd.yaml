@@ -98,6 +98,7 @@ jobs:
       - name: Install dependency
         shell: bash
         run: |
+          cd "$APP_DIR"
           eval "$(fnm env)"
           fnm use 24
-          npm install
+          npm ci

@@ -102,3 +102,19 @@ jobs:
           eval "$(fnm env)"
           fnm use 24
           npm ci
+
+      - name: Start or Reload pm2
+        shell: bash
+        run: |
+          cd "$APP_DIR"
+          if pm2 describe node-app >/dev/null 2>&1; then
+            pm2 reload cicd-test-node --update-env
+          else
+            pm2 start "npm run start" --name cicd-test-node
+          fi
+
+          pm2 save
+
+          echo "Deployed commit: $(git rev-parse --short HEAD)"
+          pm2 status
+          pm2 info node-app

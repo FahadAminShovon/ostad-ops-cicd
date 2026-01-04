@@ -59,6 +59,29 @@ jobs:
 
           mkdir -p reports
           npm run check | tee reports/test-results.txt
-      - name: Print test file
-        working-directory: app
-        run: cat reports/test-results.txt
+
+      - name: Upload test file artifacts
+        if: always()
+        uses: actions/upload-artifacts@v4
+        with:
+          name: test-results
+          path: app/reports/test-results.txt
+          if-no-files-found: error
+
+  deploya:
+    needs: test
+    runs-on: [self-hosted, Linux, X64]
+    steps:
+      - name: Download test results artifacts
+        uses: actions/download-artifacts@v4
+        with:
+          name: test-results
+          path: artifacts
+
+      - name: Display test results
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "---- test-results.txt ----"
+          cat artifacts/test-results.txt
+          echo "--------------------------"

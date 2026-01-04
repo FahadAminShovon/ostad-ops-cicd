@@ -17,7 +17,6 @@ jobs:
         with:
           node-version: 24
       - name: Run Tests (capture output)
-        working-directory: app
         run: |
           node -v
           mkdir -p reports
@@ -28,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: app/reports/test-results.txt
+          path: reports/test-results.txt
           if-no-files-found: error
 
   deploy:

@@ -36,7 +36,6 @@ jobs:
     needs: test
     runs-on: [self-hosted, Linux, X64]
     env:
-      APP_DIR: /home/ubuntu/ostad-ops-cicd
       NODE_APP_NAME: cicd-test-node-app
     steps:
       - name: Download test results artifacts
@@ -54,24 +53,25 @@ jobs:
           echo "--------------------------"
 
       - name: Checkout repo
-        shell: bash
-        run: |
-          cd "$APP_DIR"
-          git fetch origin main
-          git reset --hard "${GITHUB_SHA}"
-          git rev-parse --short HEAD
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
       - name: Install dependency
         shell: bash
         run: |
-          cd "$APP_DIR"
-          eval "$(fnm env)"
-          fnm use 24
+          set -euo pipefail
           npm ci
-
       - name: Start or Reload pm2
         shell: bash
         run: |
-          cd "$APP_DIR"
+          set -euo pipefail
+
           if pm2 describe $NODE_APP_NAME >/dev/null 2>&1; then
             pm2 reload $NODE_APP_NAME --update-env
           else

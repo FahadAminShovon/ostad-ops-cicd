@@ -108,7 +108,7 @@ jobs:
         shell: bash
         run: |
           cd "$APP_DIR"
-          if pm2 describe node-app >/dev/null 2>&1; then
+          if pm2 describe $NODE_APP_NAME >/dev/null 2>&1; then
             pm2 reload $NODE_APP_NAME --update-env
           else
             pm2 start "npm run start" --name $NODE_APP_NAME

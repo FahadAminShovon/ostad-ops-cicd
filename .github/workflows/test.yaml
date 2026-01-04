@@ -18,6 +18,8 @@ jobs:
 
           curl -fsSL https://fnm.vercel.app/install | bash
 
+          echo "$HOME/.local/share/fnm" >> "$GITHUB_PATH"
+
           export FNM_PATH="$HOME/.local/share/fnm"
           export PATH="$FNM_PATH:$PATH"
           eval "$(fnm env --use-on-cd)"

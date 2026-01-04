@@ -1,4 +1,4 @@
-name: test
+name: ci-cd
 
 on:
   push:
@@ -9,54 +9,17 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: install fnm + node
-        shell: bash
-        run: |
-          set -euo pipefail
-          sudo apt-get update
-          sudo apt-get install -y curl unzip
+      - name: Checkout Repo
+        uses: actions/checkout@v4
 
-          curl -fsSL https://fnm.vercel.app/install | bash
-
-          echo "$HOME/.local/share/fnm" >> "$GITHUB_PATH"
-
-          export FNM_PATH="$HOME/.local/share/fnm"
-          export PATH="$FNM_PATH:$PATH"
-          eval "$(fnm env --use-on-cd)"
-          fnm --version
-
-          fnm install 24
-          fnm use 24
-
-          node -v
-          npm -v
-
-      - name: Clone repo + install dependencies
-        shell: bash
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -euo pipefail
-
-          git --version
-
-          # Clone this repo at the commit that triggered the workflow
-          git clone "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" app
-          cd app
-
-          git checkout "${GITHUB_SHA}"
-
-          eval "$(fnm env)"
-          fnm use 24
-
-          npm ci
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
       - name: Run Tests (capture output)
         working-directory: app
-        shell: bash
         run: |
-          eval "$(fnm env)"
-          fnm use 24
-
+          node -v
           mkdir -p reports
           npm run check | tee reports/test-results.txt
 

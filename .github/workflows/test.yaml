@@ -45,3 +45,5 @@ jobs:
           git checkout "${GITHUB_SHA}"
 
           npm ci
+      - name: Run Tests
+        run: npm run check

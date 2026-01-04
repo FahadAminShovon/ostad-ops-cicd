@@ -46,6 +46,7 @@ jobs:
 
           git checkout "${GITHUB_SHA}"
 
+          eval "$(fnm env)"
           fnm use 24
 
           npm ci
@@ -53,6 +54,7 @@ jobs:
         working-directory: app
         shell: bash
         run: |
+          eval "$(fnm env)"
           fnm use 24
           node -v
           npm run check

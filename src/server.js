@@ -18,7 +18,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/api', (req, res) => {
-  res.json({ message: 'Hello World' });
+  res.json({ message: 'Hello World updated' });
 });
 
 let server;
@@ -32,7 +32,9 @@ let server;
 if (require.main === module) {
   // If the file is run directly, start the server
   const PORT = process.env.PORT || 3000;
-  server = app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  server = app.listen(PORT, () =>
+    console.log(`Server running on port ${PORT}`)
+  );
 }
 
-module.exports = app
+module.exports = app;

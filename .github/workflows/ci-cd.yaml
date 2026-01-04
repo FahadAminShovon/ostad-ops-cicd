@@ -88,6 +88,8 @@ jobs:
       - name: Install dependency
         shell: bash
         run: |
+          APP_DIR="$HOME/ostad-ops-cicd"
+          cd "$APP_DIR"
           eval "$(fnm env)"
           fnm use 24
           pwd

@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: install fnm
+      - name: install fnm + node
         shell: bash
         run: |
           set -euo pipefail
@@ -22,3 +22,9 @@ jobs:
           export PATH="$FNM_PATH:$PATH"
           eval "$(fnm env --use-on-cd)"
           fnm --version
+
+          fnm install 24
+          fnm use 24
+
+          node -v
+          npm -v

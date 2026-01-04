@@ -89,4 +89,6 @@ jobs:
         shell: bash
         run: |
           eval "$(fnm env)"
+          fnm use 24
           pwd
+          ls

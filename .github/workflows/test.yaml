@@ -61,4 +61,4 @@ jobs:
           npm run check | tee reports/test-results.txt
       - name: Print test file
         working-directory: app
-        run: cat reports/test-results.tsx
+        run: cat reports/test-results.txt

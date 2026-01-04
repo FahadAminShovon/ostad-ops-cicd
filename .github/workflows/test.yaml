@@ -9,5 +9,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: Hello world
-        run: echo "Hello world"
+      - name: install fnm
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install -y curl unzip
+          curl -fsSL https://fnm.vercel.app/install | bash
+          export PATH="$HOME/.fnm:$PATH"
+          eval "$(fnm env --use-on-cd)"
+          fnm --version

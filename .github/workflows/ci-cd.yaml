@@ -71,6 +71,8 @@ jobs:
   deploy:
     needs: test
     runs-on: [self-hosted, Linux, X64]
+    env:
+      APP_DIR: /home/ubuntu/ostad-ops-cicd
     steps:
       - name: Download test results artifacts
         uses: actions/download-artifact@v4
@@ -85,12 +87,17 @@ jobs:
           echo "---- test-results.txt ----"
           cat artifacts/test-results.txt
           echo "--------------------------"
+
+      - name: Checkout repo
+        shell: bash
+        run: |
+          cd "$APP_DIR"
+          git fetch origin main
+          git reset --hard "${GITHUB_SHA}"
+          git rev-parse --short HEAD
       - name: Install dependency
         shell: bash
         run: |
-          APP_DIR="$HOME/ostad-ops-cicd"
-          cd "$APP_DIR"
           eval "$(fnm env)"
           fnm use 24
-          pwd
-          ls
+          npm install

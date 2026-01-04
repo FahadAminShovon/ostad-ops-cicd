@@ -46,10 +46,13 @@ jobs:
 
           git checkout "${GITHUB_SHA}"
 
+          fnm use 24
+
           npm ci
       - name: Run Tests
         working-directory: app
         shell: bash
         run: |
+          fnm use 24
           node -v
           npm run check

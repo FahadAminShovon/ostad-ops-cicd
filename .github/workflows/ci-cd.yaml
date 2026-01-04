@@ -85,3 +85,8 @@ jobs:
           echo "---- test-results.txt ----"
           cat artifacts/test-results.txt
           echo "--------------------------"
+      - name: Install dependency
+        shell: bash
+        run: |
+          fnm use 24
+          pwd

@@ -47,4 +47,7 @@ jobs:
           npm ci
       - name: Run Tests
         working-directory: app
-        run: npm run check
+        shell: bash
+        run: |
+          node -v
+          npm run check

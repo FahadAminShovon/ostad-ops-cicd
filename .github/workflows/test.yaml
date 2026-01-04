@@ -56,5 +56,4 @@ jobs:
         run: |
           eval "$(fnm env)"
           fnm use 24
-          node -v
           npm run check

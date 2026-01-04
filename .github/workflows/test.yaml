@@ -28,3 +28,20 @@ jobs:
 
           node -v
           npm -v
+
+      - name: Clone repo + install dependencies
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          git --version
+
+          # Clone this repo at the commit that triggered the workflow
+          git clone "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git" app
+          cd app
+
+          git checkout "${GITHUB_SHA}"
+
+          npm ci

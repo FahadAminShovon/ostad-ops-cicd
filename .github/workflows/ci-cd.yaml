@@ -88,5 +88,5 @@ jobs:
       - name: Install dependency
         shell: bash
         run: |
-          fnm use 24
+          eval "$(fnm env)"
           pwd
